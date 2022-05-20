@@ -151,14 +151,22 @@ export default function Header() {
         >
           <MenuItem onClick={handleClose}>
             {userInfo.userName !== "" ? (
-              "Profile"
+              <Link href={"/profile"}>
+                <Typography>Profile</Typography>
+              </Link>
             ) : (
               <Link href={"/login"}>
                 <Typography>Sign in</Typography>
               </Link>
             )}
           </MenuItem>
-          {userInfo.userName !== "" ? <Link href={'/orders'}><MenuItem onClick={handleClose}>Order list</MenuItem></Link>  : ""}
+          {userInfo.userName !== "" ? (
+            <Link href={"/orders"}>
+              <MenuItem onClick={handleClose}>Order list</MenuItem>
+            </Link>
+          ) : (
+            ""
+          )}
           <MenuItem
             onClick={() => {
               userInfo.userName !== "" ? onLogOut() : "";

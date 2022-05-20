@@ -16,6 +16,12 @@ class UserController {
         })
     }
 
+    async userUpdate (user: UserModal) {
+        return axios.put(`http://localhost:8080/user/update/${user.userId}`, user).then(res => {
+            return res.data
+        })
+    }
+
 }
 
 export const userController = new UserController();

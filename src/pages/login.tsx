@@ -46,7 +46,7 @@ const Login = () => {
         }
       })
       .catch((err) => {
-        alert('Username or password is incorrect!')
+        alert("Username or password is incorrect!");
       });
   };
 
@@ -74,7 +74,7 @@ const Login = () => {
       userInformation = JSON.parse(userLocal);
     }
     if (userInformation !== undefined) {
-      window.location.href = '/'
+      window.location.href = "/";
     }
   };
 
@@ -171,7 +171,7 @@ const Login = () => {
                 fullWidth
                 size="large"
                 type="submit"
-                variant="contained"                
+                variant="contained"
               >
                 Sign In Now
               </Button>
