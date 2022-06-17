@@ -12,19 +12,18 @@ import { Search as SearchIcon } from "../../icons/search";
 import { Upload as UploadIcon } from "../../icons/upload";
 import { Download as DownloadIcon } from "../../icons/download";
 import { useState } from "react";
-import CategoryForm from "./CategoryForm";
-import { CategoryModal } from "../../model/Category";
+import { UserModal } from "../../model/User";
+import AccountForm from "./AccountForm";
 
 type Props = {
   open: boolean;
   handleOpen: () => void;
   handleClose: () => void;
-  onAddCategory: (categoryData: CategoryModal) => void;
-  categoryData: CategoryModal;
-  onSearch: (name: string) => void;
+  onAddAccount: (accountData: UserModal) => void;
+  accountData: UserModal;
 };
 
-export const CustomerListToolbar = (props: Props) => {
+export const AccountListToolbar = (props: Props) => {
   return (
     <Box {...props}>
       <Box
@@ -37,11 +36,11 @@ export const CustomerListToolbar = (props: Props) => {
         }}
       >
         <Typography sx={{ m: 1 }} variant="h4">
-          Category
+          Account
         </Typography>
         <Box sx={{ m: 1 }}>
           <Button onClick={props.handleOpen} color="primary" variant="contained">
-            Add Category
+            Add Account
           </Button>
         </Box>
       </Box>
@@ -60,22 +59,21 @@ export const CustomerListToolbar = (props: Props) => {
                     </InputAdornment>
                   ),
                 }}
-                placeholder="Search category"
+                placeholder="Search account"
                 variant="outlined"
-                onChange={(e) => props.onSearch(e.target.value)}
               />
             </Box>
           </CardContent>
         </Card>
       </Box>
 
-      <CategoryForm
+      <AccountForm
         key={Math.random()}
         open={props.open}
         handleOpen={props.handleOpen}
         handleClose={props.handleClose}
-        onAddCategory={props.onAddCategory}
-        categoryData={props.categoryData}
+        onAddAccount={props.onAddAccount}
+        accountData={props.accountData}
       />
     </Box>
   );

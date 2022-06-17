@@ -1,19 +1,19 @@
 import React from "react";
 import { Box, Grid, Stack, Typography } from "@mui/material";
 import Divider from "@mui/material/Divider";
-import { OrderWithDetail } from "../../../model/Order";
+import { OrderWithDetailItem } from "../../../model/Order";
 
 type Props = {
-  orders: OrderWithDetail[];
-  orderItem: OrderWithDetail;
+  orderItem: OrderWithDetailItem;
 };
 
-export default function Order({ orderItem, orders }: Props) {
-  const totalMoney = orders.reduce((t, i) => {
-    return t + i.price * i.quantity;
-  }, 0);
+export default function Order({ orderItem }: Props) {
+  const totalMoney =
+    orderItem.cartProduct?.reduce((t, i) => {
+      return t + i.price * i.quantity;
+    }, 0) || 0;
 
-  const date = new Date();
+  const date = new Date(orderItem.createdAt);
 
   return (
     <Grid
@@ -23,6 +23,13 @@ export default function Order({ orderItem, orders }: Props) {
       sx={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;", borderRadius: "5px" }}
     >
       <Grid container p={2}>
+        <Typography
+          sx={{ fontStyle: "italic", textDecoration: "underline" }}
+          fontSize={14}
+          color={"#4f4f4f"}
+        >
+          Mã đơn hàng: {orderItem.orderId}
+        </Typography>
         <Grid container direction="column" justifyContent="start" alignItems="flex-end">
           <Grid container direction="row" justifyContent="flex-end" alignItems="flex-start" mb={1}>
             <Typography mr={1}>{date.toLocaleString()}</Typography>|
@@ -40,7 +47,7 @@ export default function Order({ orderItem, orders }: Props) {
 
           <Grid sx={{ borderTop: "1px solid #ddd", width: "100%" }} />
 
-          {orders.map((item, index) => (
+          {orderItem.cartProduct?.map((item, index) => (
             <Grid
               key={index}
               container
@@ -81,7 +88,9 @@ export default function Order({ orderItem, orders }: Props) {
           <Grid mt={2} container justifyContent={"end"}>
             <Typography>
               Total:{" "}
-              <span style={{ color: "#FE0000", fontWeight: 600, fontSize: 20 }}>{totalMoney.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}đ</span>
+              <span style={{ color: "#FE0000", fontWeight: 600, fontSize: 20 }}>
+                {totalMoney.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}đ
+              </span>
             </Typography>
           </Grid>
         </Grid>

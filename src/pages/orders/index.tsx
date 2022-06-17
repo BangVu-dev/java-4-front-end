@@ -1,14 +1,16 @@
 import { Box, Grid, Stack, Typography } from "@mui/material";
 import { number } from "prop-types";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import HomeLayout from "../../components/home-layout";
 import Order from "../../components/home/components/order";
+import { UserCreateContext } from "../../context/UserContext";
 import { orderController } from "../../controller/OrderController";
 import { OrderWithDetail, OrderWithDetailItem } from "../../model/Order";
 
 export default function Orders() {
   const [data, setData] = useState<OrderWithDetail[]>([]);
-  const [orderItem, setOrderItem] = useState<OrderWithDetailItem>();
+  const [orderItem, setOrderItem] = useState<OrderWithDetailItem[]>([]);
+  const { userInfo, changeUserInfo } = useContext(UserCreateContext);
 
   useEffect(() => {
     checkLogin();
@@ -20,7 +22,7 @@ export default function Orders() {
     if (userLocal != undefined) {
       userInformation = JSON.parse(userLocal);
     }
-    
+
     if (userInformation === undefined) {
       window.location.href = "/login";
     }
@@ -29,36 +31,60 @@ export default function Orders() {
   useEffect(() => {
     getOrdersList();
     setOrderList();
-  }, [data.length]);
+  }, [data]);
 
   const getOrdersList = () => {
-    orderController.getOrderList().then((res) => {
+    orderController.getOrderList(userInfo.userId).then((res) => {
       setData(res);
     });
   };
 
   const setOrderList = () => {
-    data.map((item) => {      
-      setOrderItem({
-        orderId: item.orderId,
-        userId: item.userId,
-        createdAt: item.createdAt,
-        orderStatus: item.orderStatus,
-        fullName: item.fullName,
-        phoneNumber: item.phoneNumber,
-        email: item.email,
-        postCode: item.postCode,
-        address: item.address,
-        message: item.message,
-        cartProduct: [{
-          id: item.id,
-          userId: item.userId,
-          image: item.image,
-          productName: item.productName,
-          price: item.price,
-          quantity: item.quantity,
-        }]
+    let listOrders: OrderWithDetailItem[] = [];
+    let idOrder: number[] = [];
+
+    data.map((item) => idOrder.push(item.orderId));
+    idOrder = Array.from(new Set(idOrder));
+
+    idOrder.map((orderId) => {
+      const order: OrderWithDetailItem = {
+        orderId: orderId,
+        userId: userInfo.userId,
+        createdAt: "",
+        orderStatus: "",
+        fullName: "",
+        phoneNumber: "",
+        email: "",
+        postCode: "",
+        address: "",
+        message: "",
+        cartProduct: [],
+      };
+
+      data.map((orderItem) => {
+        if (orderItem.orderId == orderId) {
+          (order.userId = orderItem.userId),
+            (order.createdAt = orderItem.createdAt),
+            (order.orderStatus = orderItem.orderStatus),
+            (order.fullName = orderItem.fullName),
+            (order.phoneNumber = orderItem.phoneNumber),
+            (order.email = orderItem.email),
+            (order.postCode = orderItem.postCode),
+            (order.address = orderItem.address),
+            (order.message = orderItem.message),
+            order.cartProduct?.push({
+              cartId: orderItem.cartId,
+              userId: orderItem.userId,
+              image: orderItem.image,
+              productName: orderItem.productName,
+              price: orderItem.price,
+              quantity: orderItem.quantity,
+            });
+        }
       });
+
+      listOrders.push(order);
+      setOrderItem(listOrders);
     });
   };
 
@@ -68,8 +94,8 @@ export default function Orders() {
         Lịch sử mua hàng
       </Typography>
 
-      {data.map((item, index) => (
-        <Order key={index} orders={data} orderItem={item} />
+      {orderItem.map((item, index) => (
+        <Order key={index} orderItem={item} />
       ))}
     </Grid>
   );

@@ -18,6 +18,7 @@ import Image from "next/image";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { makeStyles } from "@mui/styles";
+import { UserModal } from "../../model/User";
 
 const useStyles = makeStyles({
   styleIconAction: {
@@ -28,14 +29,13 @@ const useStyles = makeStyles({
 });
 
 type Props = {
-  categoryList: CategoryModal[];
+  accountList: UserModal[];
   handleOpen: () => void;
-  onSetCate: (cateData: CategoryModal) => void;
-  onDeleteCate: (id: number) => void;
+  onSetAccount: (accountData: UserModal) => void;
+  onDeleteAccount: (id: number) => void;
 };
 
-export const CategoryListResults = (props: Props) => {
-  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+export const AccountListResults = (props: Props) => {
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
   const classes = useStyles();
@@ -56,42 +56,52 @@ export const CategoryListResults = (props: Props) => {
             <TableHead>
               <TableRow>
                 <TableCell width={200}>Id</TableCell>
-                <TableCell width={200}>Name</TableCell>
-                <TableCell width={200}>Image</TableCell>
-                <TableCell>Description</TableCell>
+                <TableCell width={200}>Username</TableCell>
+                <TableCell width={200}>Password</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell width={200}>Role</TableCell>
                 <TableCell align="center">Action</TableCell>
               </TableRow>
             </TableHead>
 
             <TableBody>
-              {props.categoryList.slice(page * limit, page * limit + limit).map((item, index) => (
-                <TableRow hover key={item.categoryId}>
+              {props.accountList.slice(page * limit, page * limit + limit).map((item, index) => (
+                <TableRow hover key={item.userId}>
                   <TableCell>
                     <Typography color="textPrimary" variant="body1">
-                      {item.categoryId}
+                      {item.userId}
                     </Typography>
                   </TableCell>
+
                   <TableCell>
                     <Typography color="textPrimary" variant="body1">
-                      {item.categoryName}
+                      {item.userName}
                     </Typography>
                   </TableCell>
-                  <TableCell>
-                    {/* <Image src={item.image} alt={item.image} width={20} height={20} /> */}
-                    <Box width={60}>
-                      <img src={item.image} width="100%" alt="" />
-                    </Box>
-                  </TableCell>
+
                   <TableCell>
                     <Typography color="textPrimary" variant="body1">
-                      {item.description}
+                      {item.password}
                     </Typography>
                   </TableCell>
+
+                  <TableCell>
+                    <Typography color="textPrimary" variant="body1">
+                      {item.email}
+                    </Typography>
+                  </TableCell>
+
+                  <TableCell>
+                    <Typography color="textPrimary" variant="body1">
+                      {item.role}
+                    </Typography>
+                  </TableCell>
+
                   <TableCell align="center">
                     <FaEdit
                       onClick={() => {
                         props.handleOpen();
-                        props.onSetCate(item);
+                        props.onSetAccount(item);
                       }}
                       className={classes.styleIconAction}
                       style={{
@@ -102,7 +112,7 @@ export const CategoryListResults = (props: Props) => {
                     />
 
                     <MdDelete
-                      onClick={() => props.onDeleteCate(item.categoryId)}
+                      onClick={() => props.onDeleteAccount(item.userId)}
                       className={classes.styleIconAction}
                       style={{ cursor: "pointer" }}
                       fontSize={20}
@@ -117,7 +127,7 @@ export const CategoryListResults = (props: Props) => {
 
       <TablePagination
         component="div"
-        count={props.categoryList.length}
+        count={props.accountList.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
@@ -128,6 +138,6 @@ export const CategoryListResults = (props: Props) => {
   );
 };
 
-CategoryListResults.propTypes = {
-  customers: PropTypes.array.isRequired,
-};
+// AccountListResults.propTypes = {
+//   customers: PropTypes.array.isRequired,
+// };

@@ -16,11 +16,12 @@ import { toast } from "react-toastify";
 
 export const AccountProfileDetails = (props: any) => {
   const { userInfo, changeUserInfo } = useContext(UserCreateContext);
+
   const [values, setValues] = useState<UserModal>({
     userName: userInfo.userName as string,
     email: userInfo.email as string,
     password: "",
-    role: "user",
+    role: userInfo.role,
     userId: userInfo.userId,
   });
 
@@ -30,15 +31,9 @@ export const AccountProfileDetails = (props: any) => {
       userName: userInfo.userName,
       email: userInfo.email,
       userId: userInfo.userId,
+      role: userInfo.role,
     });
   }, [userInfo]);
-
-  const handleChange = (event: any) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
-  };
 
   const onUpdateUser = () => {
     userController.userUpdate(values).then((res) => {
@@ -60,31 +55,32 @@ export const AccountProfileDetails = (props: any) => {
           <Grid container spacing={3}>
             <Grid item md={6} xs={12}>
               <TextField
+                disabled
                 fullWidth
-                helperText="Please specify the first name"
                 label="UserName"
                 name="userName"
-                onChange={handleChange}
                 required
                 value={values.userName}
                 variant="outlined"
+                sx={{ "& .Mui-disabled": { color: "#333" } }}
               />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
+                disabled
                 fullWidth
                 label="Email Address"
                 name="email"
-                onChange={handleChange}
                 required
                 value={values.email}
                 variant="outlined"
+                sx={{ "& .Mui-disabled": { color: "#333" } }}
               />
             </Grid>
           </Grid>
         </CardContent>
         <Divider />
-        <Box
+        {/* <Box
           sx={{
             display: "flex",
             justifyContent: "flex-end",
@@ -94,7 +90,7 @@ export const AccountProfileDetails = (props: any) => {
           <Button onClick={() => onUpdateUser()} color="primary" variant="contained">
             Save details
           </Button>
-        </Box>
+        </Box> */}
       </Card>
     </form>
   );

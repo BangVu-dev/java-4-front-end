@@ -37,20 +37,24 @@ const Register = () => {
     userController
       .isRegister(user)
       .then((res) => {
-        localStorage.setItem("userInfo", JSON.stringify(res));
-        changeUserInfo();
-        if (res.role === "admin") {
-          toast.success("Login successfully!", {
-            position: "bottom-left",
-            autoClose: 1500,
-          });
-          router.push("/admin");
+        if (res) {
+          localStorage.setItem("userInfo", JSON.stringify(res));
+          changeUserInfo();
+          if (res.role === "admin") {
+            toast.success("Login successfully!", {
+              position: "bottom-left",
+              autoClose: 1500,
+            });
+            router.push("/admin");
+          } else {
+            toast.success("Login successfully!", {
+              position: "bottom-left",
+              autoClose: 1500,
+            });
+            router.push("/");
+          }
         } else {
-          toast.success("Login successfully!", {
-            position: "bottom-left",
-            autoClose: 1500,
-          });
-          router.push("/");
+          alert("Tài khoản hoặc email đã tồn tại rồi bạn êy!");
         }
       })
       .catch((err) => {
@@ -85,7 +89,7 @@ const Register = () => {
       userInformation = JSON.parse(userLocal);
     }
     if (userInformation !== undefined) {
-      window.location.href = '/'
+      window.location.href = "/";
     }
   };
 
@@ -136,7 +140,7 @@ const Register = () => {
               name="email"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              type="email"              
+              type="email"
               variant="outlined"
             />
             <TextField

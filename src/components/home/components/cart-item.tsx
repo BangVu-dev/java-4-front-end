@@ -19,33 +19,33 @@ export default function CartItem(props: Props) {
   const onIncrease = (id: any) => {
     setQuantity(quantity + 1);
     let cartInfo;
-  
+
     let cartLocal = localStorage.getItem(`cart-${userInfo.userId}`);
     if (cartLocal != undefined) {
       cartInfo = JSON.parse(cartLocal);
     }
     cartInfo.map((item: CartModal) => {
-      if (id === item.id) {
+      if (id === item.cartId) {
         item.quantity += 1;
       }
     });
     localStorage.setItem(`cart-${userInfo.userId}`, JSON.stringify(cartInfo));
     onLoadCart();
-  };  
-  
+  };
+
   const onReduction = (id: any) => {
     if (quantity <= 1) {
       setQuantity(1);
     } else {
       setQuantity(quantity - 1);
     }
-    let cartInfo;      
+    let cartInfo;
     let cartLocal = localStorage.getItem(`cart-${userInfo.userId}`);
     if (cartLocal != undefined) {
       cartInfo = JSON.parse(cartLocal);
     }
     cartInfo.map((item: CartModal) => {
-      if (id === item.id) {
+      if (id === item.cartId) {
         item.quantity -= 1;
         if (item.quantity <= 1) {
           item.quantity = 1;
@@ -60,7 +60,7 @@ export default function CartItem(props: Props) {
     <Grid mt={2}>
       <Grid textAlign={"right"}>
         <MdOutlineClose
-          onClick={() => props.onRemoveCartItem(props.cartItem.id)}
+          onClick={() => props.onRemoveCartItem(props.cartItem.cartId)}
           fontSize={18}
           style={{ cursor: "pointer" }}
         />
@@ -95,7 +95,7 @@ export default function CartItem(props: Props) {
 
           <Stack mt={1} direction={"row"}>
             <button
-              onClick={() => onReduction(props.cartItem.id)}
+              onClick={() => onReduction(props.cartItem.cartId)}
               style={{
                 width: "30px",
                 padding: "5px 0",
@@ -118,7 +118,7 @@ export default function CartItem(props: Props) {
               {quantity}
             </button>
             <button
-              onClick={() => onIncrease(props.cartItem.id)}
+              onClick={() => onIncrease(props.cartItem.cartId)}
               style={{ width: "30px", border: "1px solid #E0E0E0", cursor: "pointer" }}
             >
               +

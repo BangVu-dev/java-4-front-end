@@ -19,7 +19,7 @@ export interface OrderWithDetailItem extends OrderModal {
 }
 
 export interface OrderWithDetail extends OrderModal {
-  id: number | undefined;
+  cartId: number | undefined;
   userId: number;
   image: string | undefined;
   productName: string | undefined;

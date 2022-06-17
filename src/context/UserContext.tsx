@@ -40,8 +40,8 @@ export default function UserContext({ children }: ContextProvider) {
     let userInformation;
     let userLocal = localStorage.getItem("userInfo");
     if (userLocal != undefined) {
-      userInformation = JSON.parse(userLocal);      
-    }   
+      userInformation = JSON.parse(userLocal);
+    }
     if (userInformation !== undefined) {
       setUserInfo(userInformation);
     } else {

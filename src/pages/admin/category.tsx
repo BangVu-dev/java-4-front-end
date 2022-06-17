@@ -35,8 +35,8 @@ export default function Category() {
   }, []);
 
   useEffect(() => {
-    checkLogin()
-  }, [])
+    checkLogin();
+  }, []);
 
   const checkLogin = () => {
     let userInformation;
@@ -100,6 +100,16 @@ export default function Category() {
     });
   };
 
+  const onSearch = (name: string) => {
+    if (name) {
+      categoryController.onSearchCategoryByName(name).then((res) => {
+        setData(res);
+      });
+    } else {
+      getCatList();
+    }
+  };
+
   return (
     <>
       <Head>
@@ -119,6 +129,7 @@ export default function Category() {
             handleClose={handleClose}
             onAddCategory={onAddCat}
             categoryData={cateData}
+            onSearch={onSearch}
           />
           <Box sx={{ mt: 3 }}>
             <CategoryListResults

@@ -45,9 +45,8 @@ export default function Cart() {
     let userLocal = localStorage.getItem("userInfo");
     if (userLocal != undefined) {
       userInformation = JSON.parse(userLocal);
+      setOrders({ ...orders, userId: userInformation.userId });
     }
-    setOrders({ ...orders, userId: userInformation.userId });
-
     if (userInformation === undefined) {
       window.location.href = "/login";
     }
@@ -65,7 +64,7 @@ export default function Cart() {
       }
     }
     cartInfo.map((item: CartModal, index: number) => {
-      if (id === item.id) {
+      if (id === item.cartId) {
         cartInfo.splice(index, 1);
         toast.success("Product removed from cart successfully!", {
           position: "bottom-left",
@@ -87,7 +86,7 @@ export default function Cart() {
         let orderProduct: OrderProductModal = {
           cartId: 1,
           orderId: res.orderId,
-          productId: item.id,
+          productId: item.cartId,
           image: item.image,
           productName: item.productName,
           price: item.price,
@@ -115,6 +114,7 @@ export default function Cart() {
       position: "bottom-left",
       autoClose: 3500,
     });
+    router.push("/orders");
   };
 
   const formik = useFormik({

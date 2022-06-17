@@ -28,6 +28,12 @@ class ProductController {
         })
     }
 
+    async getProductWithCategory (catId: number) {
+        return axios.get(`http://localhost:8080/products/category/${catId}`).then(res => {
+            return res.data
+        })
+    }
+
 }
 
 export const productController = new ProductController();

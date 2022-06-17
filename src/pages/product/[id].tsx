@@ -39,7 +39,7 @@ export default function ProductId() {
       router.push("/login");
     } else {
       let cartItem: CartModal = {
-        id: productItem?.productId,
+        cartId: productItem?.productId,
         userId: userInformation.userId,
         image: productItem?.image,
         productName: productItem?.productName,
@@ -54,18 +54,18 @@ export default function ProductId() {
       if (cartInfo != undefined) {
         cartInformation = JSON.parse(cartInfo);
         let check = false;
-        cartInformation.map((item: CartModal, index: number) => {        
-          if (cartItem.id === item.id) {
+        cartInformation.map((item: CartModal, index: number) => {
+          if (cartItem.cartId === item.cartId) {
             item.quantity += 1;
             toast.success("Add to cart successfully!", {
               position: "bottom-left",
               autoClose: 1500,
             });
-          
+
             check = true;
           }
         });
-        
+
         if (check == false) {
           cartInformation.push(cartItem);
           toast.success("Add to cart successfully!", {
@@ -75,13 +75,12 @@ export default function ProductId() {
         }
         localStorage.setItem(`cart-${userInformation.userId}`, JSON.stringify(cartInformation));
         onLoadCart();
-
       } else {
         arrCart.push(cartItem);
         localStorage.setItem(`cart-${userInformation.userId}`, JSON.stringify(arrCart));
         onLoadCart();
       }
-    }    
+    }
   };
 
   return (

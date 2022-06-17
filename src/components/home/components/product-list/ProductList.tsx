@@ -1,18 +1,38 @@
 import { Box, Grid, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { UserCreateContext } from "../../../../context/UserContext";
 import { productController } from "../../../../controller/ProductController";
 import { ProductModal } from "../../../../model/Product";
 import Product from "../product";
 
-export default function ProductList() {
+type Props = {
+  catId: number;
+};
+
+export default function ProductList({ catId }: Props) {
   const [data, setData] = useState<ProductModal[]>([]);
+  const { userInfo, changeUserInfo } = useContext(UserCreateContext);
+
+  // useEffect(() => {
+  //   getProductList();
+  // }, []);
 
   useEffect(() => {
-    getProductList();
-  }, []);
+    if (catId != 0) {
+      getProductWithCatId();
+    } else {
+      getProductList();
+    }
+  }, [catId]);
 
   const getProductList = () => {
     productController.getProductList().then((res) => {
+      setData(res);
+    });
+  };
+
+  const getProductWithCatId = () => {
+    productController.getProductWithCategory(catId).then((res) => {
       setData(res);
     });
   };
@@ -32,7 +52,7 @@ export default function ProductList() {
         // alignItems="center"
         spacing={4}
         mb={8}
-        mt={0}             
+        mt={0}
       >
         {data.map((item, index) => (
           <Grid key={index} item container xs={3}>
