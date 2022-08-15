@@ -89,14 +89,22 @@ export default function Orders() {
   };
 
   return (
-    <Grid container mb={8}>
+    <Grid container mb={8} minHeight={"80vh"}>
       <Typography mt={4} color={"#514F4F"} fontSize={22} fontWeight={700}>
         Lịch sử mua hàng
       </Typography>
 
-      {orderItem.map((item, index) => (
-        <Order key={index} orderItem={item} />
-      ))}
+      {orderItem.length > 0 ? (
+        orderItem.map((item, index) => <Order key={index} orderItem={item} />)
+      ) : (
+        <Grid item container direction={"row"} justifyContent={"center"} alignItems={"flex-start"}>
+          <Grid item sx={{ background: "#f8f8f8", width: "100%", p: 24, borderRadius: "10px" }}>
+            <Typography textAlign={"center"} fontSize={16}>
+              Hiện chưa có đơn hàng nào!
+            </Typography>
+          </Grid>
+        </Grid>
+      )}
     </Grid>
   );
 }
