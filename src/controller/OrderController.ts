@@ -19,6 +19,18 @@ class OrderController {
       return res.data;
     });
   }
+
+  async getOrdersList() {
+    return axios.get(`http://localhost:8080/orders/list`).then((res) => {
+      return res.data;
+    });
+  }
+
+  async getFullOrderList() {
+    return axios.get(`http://localhost:8080/full-orders/list`).then((res) => {
+      return res.data;
+    });
+  }
 }
 
 export const orderController = new OrderController();

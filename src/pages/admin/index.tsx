@@ -1,6 +1,5 @@
 import Head from "next/head";
 import { Box, Container, Grid } from "@mui/material";
-import { Budget } from "../../components/dashboard/budget";
 import { LatestOrders } from "../../components/dashboard/latest-orders";
 import { LatestProducts } from "../../components/dashboard/latest-products";
 import { Sales } from "../../components/dashboard/sales";
@@ -11,6 +10,7 @@ import { TrafficByDevice } from "../../components/dashboard/traffic-by-device";
 import { DashboardLayout } from "../../components/dashboard-layout";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import Budget from "../../components/dashboard/budget";
 
 const Dashboard = () => {
   const router = useRouter();
@@ -64,12 +64,12 @@ const Dashboard = () => {
             <Grid item lg={4} md={6} xl={3} xs={12}>
               <TrafficByDevice sx={{ height: "100%" }} />
             </Grid>
-            <Grid item lg={4} md={6} xl={3} xs={12}>
+            {/* <Grid item lg={4} md={6} xl={3} xs={12}>
               <LatestProducts sx={{ height: "100%" }} />
             </Grid>
             <Grid item lg={8} md={12} xl={9} xs={12}>
               <LatestOrders />
-            </Grid>
+            </Grid> */}
           </Grid>
         </Container>
       </Box>
